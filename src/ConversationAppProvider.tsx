@@ -47,6 +47,11 @@ const ConversationAppProvider: React.FC = ({ children }) => {
               getChatForJobId: (jobId: string) =>
                 new Promise(async (resolve, reject) => {
                   const channel = await client.getChannelByUniqueName(jobId);
+                  try {
+                    await channel.join();
+                  } catch (e) {
+                    console.log("all is clear already joined...");
+                  }
                   const messages = await channel.getMessages();
 
                   channel.on("messageAdded", async msg => {
